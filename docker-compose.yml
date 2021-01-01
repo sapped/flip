@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  streamlit:
+    volumes:
+      - ./streamlit/:/streamlit/
+    build:
+      context: ./streamlit
+      dockerfile: Dockerfile
+    container_name: streamlit
+    restart: always
+    # do not publicly expose port 8501
+    # ports:
+    #   - "8501:8501"
+    depends_on:
+      - api
+  
+  reverse:
+    container_name: reverse
+    hostname: reverse
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - streamlit
+      - postgres
+      - api
+    
+  postgres:
+    image: postgres:12
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    # ports:
+    #   - "5432:5432"
+    env_file:
+      - ./postgres/.env
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    volumes:
+      - ./api/:/api/
+    command: bash -c "alembic upgrade head && uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    # ports:
+    #   - "8000:8000"
+    depends_on:
+      - postgres
+    
+  pgadmin4:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    env_file:
+      - ./pgadmin4/.env
+    # ports: 
+    #   - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
