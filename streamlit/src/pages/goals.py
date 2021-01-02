@@ -1,12 +1,12 @@
-import datetime as dt
-
+# libraries
 import streamlit as st
 import pandas as pd
 
+# local
 from src.crud import Goal
 from src.style.charts import line_chart, heatmap
-
 from config import API_URL
+
 
 PAGE_TITLE = 'Manage Goals'
 

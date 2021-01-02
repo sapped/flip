@@ -1,18 +1,20 @@
+from typing import Optional
 from pydantic import BaseModel
-from datetime import datetime
+import datetime
 
 class Goal(BaseModel):
     goal: str
     has_amount: bool
+    # date_created: Optional[datetime]
 
     class Config:
         orm_mode = True
 
 class Entry(BaseModel):
     goal_id: int
-    date: datetime
     tracked: bool
-    amount: float
+    amount: Optional[float]
+    date: Optional[float]
 
     class Config:
         orm_mode = True

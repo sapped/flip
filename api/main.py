@@ -1,3 +1,5 @@
+from typing import List
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
@@ -33,7 +35,7 @@ def create_goal(goal: schema.Goal):
     db_goal = models.Goal(
         goal = goal.goal,
         has_amount = goal.has_amount,
-        date_created = dt.datetime.now(),
+        date_created = dt.datetime.today(),
     )
     db.session.add(db_goal)
     db.session.commit()
@@ -44,6 +46,8 @@ def create_goal(goal: schema.Goal):
 def read_goals():
     db_goals = db.session.query(models.Goal).all()
     return db_goals
+
+# no update
 
 # delete a goal
 @app.post("/goals/delete/{id}", response_model=schema.Goal)
@@ -56,19 +60,23 @@ def delete_goal(id: int):
 # --------- MANAGE ENTRIES --------- #
 
 # create an entry
-@app.post("/entry/", response_model=schema.Entry)
-def create_entryr(entry: schema.Entry):
-    db_entry = models.Entry(
-        goal_id=entry.goal_id,
-        date=entry.date,
-        tracked=entry.tracked,
-        amount=entry.amount,)
-    db.session.add(db_entry)
-    db.session.commit()
-    return db_entry
+@app.post("/entries/", response_model=List[schema.Entry])
+def create_entry(entries: List[schema.Entry]):
+    
+    db_entries = []
+    for entry in entries:
+        db_entry = models.Entry(
+            goal_id=entry.goal_id,
+            date=entry.date,
+            tracked=entry.tracked,
+            amount=entry.amount,)
+        db.session.add(db_entry)
+        db.session.commit()
+        db_entries.append(db_entry)
+    return db_entries
 
 # update an existing entry
-@app.post("/entry/update/{id}", response_model=schema.Entry)
+@app.post("/entries/update/{id}", response_model=schema.Entry)
 def update_entry(id: int, entry: schema.Entry):
     db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
     db_entry.goal_id = entry.goal_id
@@ -79,7 +87,7 @@ def update_entry(id: int, entry: schema.Entry):
     return db_entry
 
 # delete an existing entry
-@app.post("/entry/delete/{id}", response_model=schema.Entry)
+@app.post("/entries/delete/{id}", response_model=schema.Entry)
 def delete_entry(id: int):
     db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
     db.session.delete(db_entry)
@@ -88,7 +96,7 @@ def delete_entry(id: int):
 
 # get entries
 @app.get('/entries/')
-def get_entries(count: int = 7):
+def get_entries(count: int = 365):
     db_entries = db.session.query(models.Entry).limit(count).all()
     return db_entries
 

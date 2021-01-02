@@ -16,8 +16,8 @@ import src.pages.misc
 # TBU - change app name from 'app'?
 
 PAGES = {
-    'Entries': src.pages.entries,
-    'Goals': src.pages.goals,
+    'Track Performance': src.pages.entries,
+    'Manage Goals': src.pages.goals,
     'Misc': src.pages.misc,
 }
 

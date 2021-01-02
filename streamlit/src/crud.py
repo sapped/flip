@@ -17,19 +17,33 @@ class Goal():
         return df.set_index('id')
 
     def create_goal(self, goal):
-        url = f'{API_URL}/goals/'
-        res = requests.post(url, json=goal)
+        res = requests.post(self.resource, json=goal)
         return json.loads(res.text)
 
     def delete_goal(self, id):
-        url = f'{API_URL}/goals/delete/{id}'
+        url = f'{self.resource}delete/{id}'
         res = requests.post(url)
         return json.loads(res.text)
 
 class Entry():
 
-    def read_entries():
-        return 'BITCH'
+    def __init__(self):
+        # list of dates, least to most recent
+        self.resource = f'{API_URL}/entries/'
+        self.existing_entries = self.read_entries()
+
+    def read_entries(self):
+        res = requests.get(self.resource)
+        df = pd.read_json(res.text)
+        if df.empty:
+            return df
+        else:
+            return df.set_index('id')
+    
+    def create_entry(self, entry):
+        res = requests.post(self.resource, json=entry)
+        return json.loads(res.text)
+
 
 class Tracker():
 
