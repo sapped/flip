@@ -1,6 +1,28 @@
 import requests
 import json
 
+import pandas as pd
+
+from config import API_URL
+
+class Goal():
+
+    def read_goals():
+        url = f'{API_URL}/goals/'
+        res = requests.get(url)
+        df = pd.read_json(res.text)
+        return df.set_index('id')
+
+    def create_goal(goal):
+        url = f'{API_URL}/goals/'
+        res = requests.post(url, json=goal)
+        return json.loads(res.text)
+
+    def delete_goal(id):
+        url = f'{API_URL}/goals/delete/{id}'
+        res = requests.post(url)
+        return json.loads(res.text)
+
 class Tracker():
 
     def read_tracker():

@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 
 import os
+import datetime as dt
 from fastapi_sqlalchemy import DBSessionMiddleware
 from fastapi_sqlalchemy import db
 from dotenv import load_dotenv
@@ -22,47 +23,74 @@ app.add_middleware(
     DBSessionMiddleware,
     db_url=os.environ['DATABASE_URL'])
 
-# arbitrary user resource I built when following a tutorial - not used in streamlit CRUD example
 
-# create a tracker entry
-@app.post("/tracker/", response_model=schema.Tracker)
-def create_tracker(tracker: schema.Tracker):
-    db_tracker = models.Tracker(
-        date=tracker.date,
-        crossfit=tracker.crossfit,
-        gowod=tracker.gowod,
-        yoga=tracker.yoga,
-        weight=tracker.weight,
-        calories=tracker.calories,)
-    db.session.add(db_tracker)
+# ---------- MANAGE GOALS ---------- #
+
+# create a new goal
+@app.post('/goals/', response_model=schema.Goal)
+def create_goal(goal: schema.Goal):
+    
+    db_goal = models.Goal(
+        goal = goal.goal,
+        has_amount = goal.has_amount,
+        date_created = dt.datetime.now(),
+    )
+    db.session.add(db_goal)
     db.session.commit()
-    return db_tracker
+    return db_goal
 
-# update an existing tracker
-@app.post("/tracker/update/{id}", response_model=schema.Tracker)
-def update_tracker(id: int, tracker: schema.Tracker):
-    db_tracker = db.session.query(models.Tracker).filter(models.Tracker.id == id).first()
-    db_tracker.crossfit = tracker.crossfit
-    db_tracker.gowod = tracker.gowod
-    db_tracker.yoga = tracker.yoga
-    db_tracker.weight = tracker.weight
-    db_tracker.calories = tracker.calories
+# read all goals
+@app.get('/goals/')
+def read_goals():
+    db_goals = db.session.query(models.Goal).all()
+    return db_goals
+
+# delete a goal
+@app.post("/goals/delete/{id}", response_model=schema.Goal)
+def delete_goal(id: int):
+    db_goal = db.session.query(models.Goal).filter(models.Goal.id == id).first()
+    db.session.delete(db_goal)
     db.session.commit()
-    return db_tracker
+    return db_goal
 
-# delete an existing tracker
-@app.post("/tracker/delete/{id}", response_model=schema.Tracker)
-def delete_tracker(id: int):
-    db_tracker = db.session.query(models.Tracker).filter(models.Tracker.id == id).first()
-    db.session.delete(db_tracker)
+# --------- MANAGE ENTRIES --------- #
+
+# create an entry
+@app.post("/entry/", response_model=schema.Entry)
+def create_entryr(entry: schema.Entry):
+    db_entry = models.Entry(
+        goal_id=entry.goal_id,
+        date=entry.date,
+        tracked=entry.tracked,
+        amount=entry.amount,)
+    db.session.add(db_entry)
     db.session.commit()
-    return db_tracker
+    return db_entry
 
-# get all trackers
-@app.get('/trackers/')
-def get_trackers():
-    db_trackers = db.session.query(models.Tracker).all()
-    return db_trackers
+# update an existing entry
+@app.post("/entry/update/{id}", response_model=schema.Entry)
+def update_entry(id: int, entry: schema.Entry):
+    db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
+    db_entry.goal_id = entry.goal_id
+    db_entry.date = entry.date
+    db_entry.tracked = entry.tracked
+    db_entry.amount = entry.amount
+    db.session.commit()
+    return db_entry
+
+# delete an existing entry
+@app.post("/entry/delete/{id}", response_model=schema.Entry)
+def delete_entry(id: int):
+    db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
+    db.session.delete(db_entry)
+    db.session.commit()
+    return db_entry
+
+# get entries
+@app.get('/entries/')
+def get_entries(count: int = 7):
+    db_entries = db.session.query(models.Entry).limit(count).all()
+    return db_entries
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

@@ -1,13 +1,18 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class Tracker(BaseModel):
+class Goal(BaseModel):
+    goal: str
+    has_amount: bool
+
+    class Config:
+        orm_mode = True
+
+class Entry(BaseModel):
+    goal_id: int
     date: datetime
-    crossfit: bool
-    gowod: bool
-    yoga: bool
-    weight: float
-    calories: int
+    tracked: bool
+    amount: float
 
     class Config:
         orm_mode = True

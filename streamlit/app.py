@@ -6,7 +6,8 @@ import pandas as pd
 # ast credit to https://github.com/MarcSkovMadsen/awesome-streamlit
 
 import awesome_streamlit as ast
-import src.pages.tracker
+import src.pages.goals
+import src.pages.entries
 import src.pages.misc
 
 # ast.core.services.other.set_logging_format()
@@ -15,7 +16,8 @@ import src.pages.misc
 # TBU - change app name from 'app'?
 
 PAGES = {
-    'Tracker': src.pages.tracker,
+    'Entries': src.pages.entries,
+    'Goals': src.pages.goals,
     'Misc': src.pages.misc,
 }
 
