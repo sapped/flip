@@ -7,18 +7,21 @@ from config import API_URL
 
 class Goal():
 
-    def read_goals():
-        url = f'{API_URL}/goals/'
-        res = requests.get(url)
+    def __init__(self):
+        self.resource = f'{API_URL}/goals/'
+        self.existing_goals = self.read_goals()
+
+    def read_goals(self):
+        res = requests.get(self.resource)
         df = pd.read_json(res.text)
         return df.set_index('id')
 
-    def create_goal(goal):
+    def create_goal(self, goal):
         url = f'{API_URL}/goals/'
         res = requests.post(url, json=goal)
         return json.loads(res.text)
 
-    def delete_goal(id):
+    def delete_goal(self, id):
         url = f'{API_URL}/goals/delete/{id}'
         res = requests.post(url)
         return json.loads(res.text)

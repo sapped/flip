@@ -13,16 +13,18 @@ PAGE_TITLE = 'Manage Goals'
 def write():
     st.markdown(f'# {PAGE_TITLE}')
 
-    existing_goals = read_goals()
-    st.write(existing_goals)
-    create_goal()
-    delete_goal(existing_goals)
-
-def read_goals():
+    # initiate & read goals
+    goal = Goal()
     st.markdown('### List Existing Goals')
-    return Goal.read_goals()
+    st.write(goal.existing_goals)
+    
+    # create goal
+    create_goal(goal)
+    
+    # delete goal
+    delete_goal(goal)
 
-def create_goal():
+def create_goal(goal):
     st.markdown('### Create New Goal')
     new_goal = {
         'goal': st.text_input(label='Goal Name'),
@@ -32,25 +34,25 @@ def create_goal():
     create = st.button(label='Create goal')
 
     if create:
-        goal = Goal.create_goal(new_goal)
-        if goal is not None:
+        goal_response = goal.create_goal(new_goal)
+        if goal_response is not None:
             create = False
-        st.write(goal)
+        st.write(goal_response)
 
-def delete_goal(df):
+def delete_goal(goal):
     st.markdown('### Delete Existing Goal')
     delete_id = st.selectbox(
         label='Choose goal to delete',
-        options=df.index,
-        format_func=lambda x: df.loc[x,'goal'])
+        options=goal.existing_goals.index,
+        format_func=lambda x: goal.existing_goals.loc[x,'goal'])
     
     delete = st.button(label='Delete goal')
     
     if delete:
-        goal = Goal.delete_goal(delete_id)
-        if goal is not None:
+        goal_response = goal.delete_goal(delete_id)
+        if goal_response is not None:
             delete = False
-        st.write(goal)
+        st.write(goal_response)
 
 if __name__=='__main__':
     write()
