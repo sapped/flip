@@ -14,17 +14,17 @@ def write():
     st.markdown(f'# {PAGE_TITLE}')
 
     # initiate & read goals
-    goal = Goal()
+    goals = Goal()
     st.markdown('### List Existing Goals')
-    st.write(goal.existing_goals)
+    st.write(goals.existing_goals)
     
     # create goal
-    create_goal(goal)
+    create_goal(goals)
     
     # delete goal
-    delete_goal(goal)
+    delete_goal(goals)
 
-def create_goal(goal):
+def create_goal(goals):
     st.markdown('### Create New Goal')
     new_goal = {
         'goal': st.text_input(label='Goal Name'),
@@ -34,22 +34,22 @@ def create_goal(goal):
     create = st.button(label='Create goal')
 
     if create:
-        goal_response = goal.create_goal(new_goal)
+        goal_response = goals.create_goal(new_goal)
         if goal_response is not None:
             create = False
         st.write(goal_response)
 
-def delete_goal(goal):
+def delete_goal(goals):
     st.markdown('### Delete Existing Goal')
     delete_id = st.selectbox(
         label='Choose goal to delete',
-        options=goal.existing_goals.index,
-        format_func=lambda x: goal.existing_goals.loc[x,'goal'])
+        options=goals.existing_goals.index,
+        format_func=lambda x: goals.existing_goals.loc[x,'goal'])
     
     delete = st.button(label='Delete goal')
     
     if delete:
-        goal_response = goal.delete_goal(delete_id)
+        goal_response = goals.delete_goal(delete_id)
         if goal_response is not None:
             delete = False
         st.write(goal_response)

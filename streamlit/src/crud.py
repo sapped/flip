@@ -26,6 +26,11 @@ class Goal():
         res = requests.post(url)
         return json.loads(res.text)
 
+class Entry():
+
+    def read_entries():
+        return 'BITCH'
+
 class Tracker():
 
     def read_tracker():
