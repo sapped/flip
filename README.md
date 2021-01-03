@@ -1,4 +1,4 @@
-# Backend Code for personal site, flip.Rip
+# Backend Code for personal site, flip.rip
 
 Full-stack Streamlit implementation, [see this repo](https://github.com/sapped/Authenticated-Full-Stack-Streamlit) for a template you can more quickly rip. This is for my personal website. I predominately use it to track my own goals, but the idea is to put it all here. It will continue to change, but figure I'd share what I make here.
 
