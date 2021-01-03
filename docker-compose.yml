@@ -58,6 +58,8 @@ services:
     #   - "5050:80"
     depends_on:
       - postgres
+    logging:
+      - driver: none
 
 volumes:
   postgres_data:
