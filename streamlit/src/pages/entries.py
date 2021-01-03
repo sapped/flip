@@ -16,7 +16,9 @@ def write():
 
     # initialize crud objects
     entries = Entry()
+    st.write(entries.existing_entries)
     goals = Goal()
+    st.write(goals.existing_goals)
 
     # read_entries(entries, goals)
     create_entry(entries, goals)

@@ -28,20 +28,20 @@ app.add_middleware(
 
 # ---------- MANAGE GOALS ---------- #
 
-# create a new goal
+# CREATE new goal
 @app.post('/goals/', response_model=schema.Goal)
 def create_goal(goal: schema.Goal):
     
     db_goal = models.Goal(
         goal = goal.goal,
         has_amount = goal.has_amount,
-        date_created = dt.datetime.today(),
+        date_created = goal.date_created,
     )
     db.session.add(db_goal)
     db.session.commit()
     return db_goal
 
-# read all goals
+# READ all goals
 @app.get('/goals/')
 def read_goals():
     db_goals = db.session.query(models.Goal).all()
@@ -49,7 +49,7 @@ def read_goals():
 
 # no update
 
-# delete a goal
+# DELETE a goal
 @app.post("/goals/delete/{id}", response_model=schema.Goal)
 def delete_goal(id: int):
     db_goal = db.session.query(models.Goal).filter(models.Goal.id == id).first()
@@ -59,7 +59,7 @@ def delete_goal(id: int):
 
 # --------- MANAGE ENTRIES --------- #
 
-# create an entry
+# CREATE an entry
 @app.post("/entries/", response_model=List[schema.Entry])
 def create_entry(entries: List[schema.Entry]):
     
@@ -75,7 +75,13 @@ def create_entry(entries: List[schema.Entry]):
         db_entries.append(db_entry)
     return db_entries
 
-# update an existing entry
+# READ entries
+@app.get('/entries/')
+def get_entries(count: int = 365):
+    db_entries = db.session.query(models.Entry).limit(count).all()
+    return db_entries
+
+# UPDATE an existing entry
 @app.post("/entries/update/{id}", response_model=schema.Entry)
 def update_entry(id: int, entry: schema.Entry):
     db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
@@ -86,19 +92,13 @@ def update_entry(id: int, entry: schema.Entry):
     db.session.commit()
     return db_entry
 
-# delete an existing entry
+# DELETE an existing entry
 @app.post("/entries/delete/{id}", response_model=schema.Entry)
 def delete_entry(id: int):
     db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
     db.session.delete(db_entry)
     db.session.commit()
     return db_entry
-
-# get entries
-@app.get('/entries/')
-def get_entries(count: int = 365):
-    db_entries = db.session.query(models.Entry).limit(count).all()
-    return db_entries
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

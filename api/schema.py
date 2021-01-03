@@ -1,11 +1,10 @@
 from typing import Optional
 from pydantic import BaseModel
-import datetime
 
 class Goal(BaseModel):
     goal: str
     has_amount: bool
-    # date_created: Optional[datetime]
+    date_created: float
 
     class Config:
         orm_mode = True

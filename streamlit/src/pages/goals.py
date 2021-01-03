@@ -1,3 +1,6 @@
+# stdlib
+import time
+
 # libraries
 import streamlit as st
 import pandas as pd
@@ -29,6 +32,7 @@ def create_goal(goals):
     new_goal = {
         'goal': st.text_input(label='Goal Name'),
         'has_amount': st.checkbox(label='Goal tracks an amount? (weight, calories, etc.)'),
+        'date_created': time.time(),
     }
 
     create = st.button(label='Create goal')

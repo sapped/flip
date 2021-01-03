@@ -2,6 +2,8 @@ import requests
 import json
 
 import pandas as pd
+# REMOVE
+import streamlit as st
 
 from config import API_URL
 
@@ -13,8 +15,14 @@ class Goal():
 
     def read_goals(self):
         res = requests.get(self.resource)
+        # # REMOVE
+        # st.write(res.text)
         df = pd.read_json(res.text)
-        return df.set_index('id')
+        try:
+            df.set_index('id', inplace=True)
+            return df
+        except KeyError:
+            return df
 
     def create_goal(self, goal):
         res = requests.post(self.resource, json=goal)
@@ -34,11 +42,14 @@ class Entry():
 
     def read_entries(self):
         res = requests.get(self.resource)
+        # REMOVE
+        st.write(res.text)
         df = pd.read_json(res.text)
-        if df.empty:
+        try:
+            df.set_index('id', inplace=True)
             return df
-        else:
-            return df.set_index('id')
+        except KeyError:
+            return df
     
     def create_entry(self, entry):
         res = requests.post(self.resource, json=entry)
