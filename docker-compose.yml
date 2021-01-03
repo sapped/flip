@@ -59,7 +59,7 @@ services:
     depends_on:
       - postgres
     logging:
-      - driver: none
+      driver: none
 
 volumes:
   postgres_data:
