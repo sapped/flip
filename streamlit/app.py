@@ -17,7 +17,7 @@ import src.pages.misc
 PAGES = {
     'Track Performance': src.pages.entries,
     'Manage Goals': src.pages.goals,
-    'Misc': src.pages.misc,
+    'Miscellaneous Gags': src.pages.misc,
 }
 
 def main():

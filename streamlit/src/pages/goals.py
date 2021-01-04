@@ -20,6 +20,13 @@ def write():
     # initiate & read goals
     goals = Goal()
     st.markdown('### List Existing Goals')
+
+    if goals.existing_goals.empty == True:
+        st.markdown('### Create your first goal!')
+        st.write('This page will change after refresh (press r)')
+        create_goal(goals)
+        return
+
     out_existing_goals = goals.existing_goals
     out_existing_goals['date_created'] = out_existing_goals['date_created'].apply(es_date_format)
     st.write(out_existing_goals)

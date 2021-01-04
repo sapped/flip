@@ -19,9 +19,14 @@ def write():
     st.markdown(f'# {PAGE_TITLE}')
 
     # initialize crud objects
-    entries = Entry()
     goals = Goal()
+    if goals.existing_goals.empty == True:
+        st.write('You need to make a goal first! \
+        Click on the little arrow in the top left top open navigation, then \
+        select the appropriate page.')
+        return
 
+    entries = Entry()
     # main app
     if entries.existing_entries.empty == True:
         st.markdown('### Create your first entry!')
@@ -34,10 +39,7 @@ def write():
     entry_pivot = read_entries(entries,goals)
     
     # then, format it as out_existing_entries
-    out_existing_entries = entry_pivot.reset_index()
-    out_existing_entries['date'] = out_existing_entries['date'].apply(es_date_format)
-    out_existing_entries.set_index('date', inplace=True)
-    st.write(out_existing_entries)
+    show_existing_entries(entry_pivot)
     col1, col2 = st.beta_columns(2)
     with col1:
         st.markdown('### Create New Entry')
@@ -45,6 +47,15 @@ def write():
     with col2:
         st.markdown('### Delete an Existing Entry')
         delete_entry(entries, entry_pivot)
+    
+# FORMAT presentation of existing entries
+def show_existing_entries(df_in):
+    df = df_in.copy()
+    df.reset_index(inplace=True)
+    df['date'] = df['date'].apply(es_date_format)
+    df.set_index('date', inplace=True)
+    st.write(df)
+    return 0
 
 # DELETE entry
 def delete_entry(entries, df):
