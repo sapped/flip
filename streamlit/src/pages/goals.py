@@ -25,6 +25,7 @@ def write():
         st.markdown('### Create your first goal!')
         st.write('This page will change after refresh (press r)')
         create_goal(goals)
+        footer()
         return
 
     out_existing_goals = goals.existing_goals
@@ -36,6 +37,14 @@ def write():
     
     # delete goal
     delete_goal(goals)
+
+    footer()
+
+def footer():
+    st.write('You can track your entries by \
+        clicking on the little arrow in the \
+        top left to open navigation, then \
+        select the appropriate page.')
 
 def create_goal(goals):
     st.markdown('### Create New Goal')

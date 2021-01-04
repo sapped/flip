@@ -21,9 +21,7 @@ def write():
     # initialize crud objects
     goals = Goal()
     if goals.existing_goals.empty == True:
-        st.write('You need to make a goal first! \
-        Click on the little arrow in the top left top open navigation, then \
-        select the appropriate page.')
+        footer()
         return
 
     entries = Entry()
@@ -34,7 +32,7 @@ def write():
         create_entry(entries, goals)
         return
 
-    st.markdown('### List Existing Entries')
+    st.markdown('### Review Existing Entries')
     # first get entry_pivot & don't modify its data
     entry_pivot = read_entries(entries,goals)
     
@@ -48,13 +46,33 @@ def write():
         st.markdown('### Delete an Existing Entry')
         delete_entry(entries, entry_pivot)
     
+    footer()
+    
+def footer():
+        st.write('Feel free to delete or create new goals! \
+        Click on the little arrow in the top left \
+        to open navigation, then \
+        select the appropriate page.')
+
+
 # FORMAT presentation of existing entries
 def show_existing_entries(df_in):
     df = df_in.copy()
     df.reset_index(inplace=True)
     df['date'] = df['date'].apply(es_date_format)
     df.set_index('date', inplace=True)
-    st.write(df)
+    
+    with st.beta_expander(label='Goal-wise review', expanded=True):
+        st.table(df)
+
+    with st.beta_expander(label='Date-wise review', expanded=False):
+        datewise = df.copy()
+
+        date = st.selectbox(label='Choose date to review',
+        options=datewise.index)
+        datewise = datewise.loc[datewise.index==date]
+        st.table(datewise.T)
+    
     return 0
 
 # DELETE entry
