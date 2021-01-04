@@ -9,7 +9,7 @@ import numpy as np
 
 # local imports
 from src.crud import Goal, Entry
-from src.style.charts import line_chart, heatmap
+from src.style.charts import line_chart, heatmap, table_cols
 from config import API_URL
 from src.style.stringformats import es_date_format
 
@@ -63,7 +63,7 @@ def show_existing_entries(df_in):
     df.set_index('date', inplace=True)
     
     with st.beta_expander(label='Goal-wise review', expanded=True):
-        st.table(df)
+        table_cols(df)
 
     with st.beta_expander(label='Date-wise review', expanded=False):
         datewise = df.copy()
@@ -71,7 +71,7 @@ def show_existing_entries(df_in):
         date = st.selectbox(label='Choose date to review',
         options=datewise.index)
         datewise = datewise.loc[datewise.index==date]
-        st.table(datewise.T)
+        table_cols(datewise.T)
     
     return 0
 
