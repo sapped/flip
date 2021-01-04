@@ -9,6 +9,7 @@ import pandas as pd
 from src.crud import Goal
 from src.style.charts import line_chart, heatmap
 from config import API_URL
+from src.style.stringformats import es_date_format
 
 
 PAGE_TITLE = 'Manage Goals'
@@ -19,7 +20,9 @@ def write():
     # initiate & read goals
     goals = Goal()
     st.markdown('### List Existing Goals')
-    st.write(goals.existing_goals)
+    out_existing_goals = goals.existing_goals
+    out_existing_goals['date_created'] = out_existing_goals['date_created'].apply(es_date_format)
+    st.write(out_existing_goals)
     
     # create goal
     create_goal(goals)

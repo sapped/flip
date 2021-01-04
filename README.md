@@ -4,3 +4,7 @@ Full-stack Streamlit implementation, [see this repo](https://github.com/sapped/A
 
 ## Goals Tracker
 Create goals, which have optional amounts. Then track them. Store it in a Postgres DB, manage db with Pgadmin4, and GUI via Streamlit.
+
+## TBU
+- Users
+- Format time on read entries from epoch float

@@ -11,6 +11,7 @@ import numpy as np
 from src.crud import Goal, Entry
 from src.style.charts import line_chart, heatmap
 from config import API_URL
+from src.style.stringformats import es_date_format
 
 PAGE_TITLE = 'Track Performance'
 
@@ -29,8 +30,14 @@ def write():
         return
 
     st.markdown('### List Existing Entries')
+    # first get entry_pivot & don't modify its data
     entry_pivot = read_entries(entries,goals)
-    st.write(entry_pivot)
+    
+    # then, format it as out_existing_entries
+    out_existing_entries = entry_pivot.reset_index()
+    out_existing_entries['date'] = out_existing_entries['date'].apply(es_date_format)
+    out_existing_entries.set_index('date', inplace=True)
+    st.write(out_existing_entries)
     col1, col2 = st.beta_columns(2)
     with col1:
         st.markdown('### Create New Entry')
@@ -47,7 +54,7 @@ def delete_entry(entries, df):
     id = st.selectbox(
         label='Choose entry to delete',
         options=df.index,
-        format_func=lambda x: dt.datetime.fromtimestamp(x).strftime('%b %e, %Y %r'))
+        format_func=lambda x: es_date_format(x))
     # get list of indices of matches
     delete_id_list = entries.existing_entries.loc[entries.existing_entries['date']==id].index.tolist()
 
