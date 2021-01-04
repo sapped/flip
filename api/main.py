@@ -47,7 +47,7 @@ def read_goals():
     db_goals = db.session.query(models.Goal).all()
     return db_goals
 
-# no update
+# UPDATE na
 
 # DELETE a goal
 @app.post("/goals/delete/{id}", response_model=schema.Goal)
@@ -81,24 +81,22 @@ def get_entries(count: int = 365):
     db_entries = db.session.query(models.Entry).limit(count).all()
     return db_entries
 
-# UPDATE an existing entry
-@app.post("/entries/update/{id}", response_model=schema.Entry)
-def update_entry(id: int, entry: schema.Entry):
-    db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
-    db_entry.goal_id = entry.goal_id
-    db_entry.date = entry.date
-    db_entry.tracked = entry.tracked
-    db_entry.amount = entry.amount
-    db.session.commit()
-    return db_entry
+# UPDATE na
 
 # DELETE an existing entry
-@app.post("/entries/delete/{id}", response_model=schema.Entry)
-def delete_entry(id: int):
-    db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
-    db.session.delete(db_entry)
-    db.session.commit()
-    return db_entry
+@app.post("/entries/delete/", response_model=List[schema.Entry])
+def delete_entry(entries: List[int]):
+    print('-------------------------------')
+    print(entries)
+    print('-------------------------------')
+
+    db_entries = []
+    for id in entries:
+        db_entry = db.session.query(models.Entry).filter(models.Entry.id == id).first()
+        db.session.delete(db_entry)
+        db.session.commit()
+        db_entries.append(db_entry)
+    return db_entries
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

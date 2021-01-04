@@ -1,5 +1,7 @@
 import streamlit as st
-st.set_page_config(initial_sidebar_state="collapsed")
+st.set_page_config(
+    initial_sidebar_state="collapsed",
+    page_title='flip.RIP')
 
 import pandas as pd
 
@@ -9,9 +11,6 @@ import awesome_streamlit as ast
 import src.pages.goals
 import src.pages.entries
 import src.pages.misc
-
-# ast.core.services.other.set_logging_format()
-
 
 # TBU - change app name from 'app'?
 
