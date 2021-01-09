@@ -23,15 +23,15 @@ Probably fancier ways to do this, but auth_basic proves the concept
 1. edit file ~/main_dir/nginx/conf/project.conf
 2. At every exposed endpoint, add the code I have, anything that starts with 'auth_basic' (as of writing, this is 'auth_basic' and 'auth_basic_user_file')
 3. follow the README.md in ~/main_dir/nginx/auth/README.md to create users. Requires some apache2 tools installed so you can run htpasswd
-4. This is it for configuration of nginx reverse proxy for auth. The magic now is: within our local docker container network, we can speak in HTTP without worrying about HTTPS stifling us [see forum](https://discuss.streamlit.io/t/user-authentication/612/5?u=eddie)
+4. This is it for configuration of nginx reverse proxy for auth. The magic now is: within our local docker container network, we can speak in HTTP without worrying about HTTPS stifling us ([see forum](https://discuss.streamlit.io/t/user-authentication/612/5?u=eddie))
 
 #### Forward User via HTTP
 1. edit file ~/main_dir/nginx/conf/project.conf
 2. go to 'location /stream {}'. Not fully sure what stream does, but I know it passes the HTTP headers to my app
-3. add code proxy_set_header $remote_user (this shares username)
+3. add code "proxy_set_header $remote_user (this shares username)"
 
 #### Access headers in streamlit
-This one was a doozy to figure out! Thanks to all in links mentioned below for valuable guidance.
+This one was a doozy to figure out! Thanks to all in links referenced below for valuable guidance.
 - see code in ~/main_dir/streamlit/users/users.py, which relies on session_state
 - app.py grabs user and displays on sidebar
 - you can use from users.users import get_user on whichever page you need users. Or maybe just implement it as part of global context somehow.
@@ -48,7 +48,7 @@ But PLEASE let me know if you disagree! Security is essential. I want to ensure 
 - https://gist.github.com/okld/0aba4869ba6fdc8d49132e6974e2e662
 
 ## Other helpful things
-- dbdiagram.io lets me visualize my ERD (entity relationship diagrams, those DB tables with connector things. DBML is a cool language for designing databases).
+- dbdiagram.io lets me visualize my ERD (entity relationship diagrams). Aka, those DB tables with connector things. Right now, I think DBML is a cool language for designing databases).
 
 ## TBU
 - Format time on read entries from epoch float
