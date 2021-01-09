@@ -6,7 +6,10 @@ Full-stack Streamlit implementation, [see this repo](https://github.com/sapped/A
 Create goals, which have optional amounts. Then track them. Store it in a Postgres DB, manage db with Pgadmin4, and GUI via Streamlit.
 
 ## Users
-Functionality for barebones users, relies upon:
+Functionality for barebones users. Lacks basics like creation routine, logout, etc. But if you just need ***something***, I hope this does the trick for you.
+
+Relies upon:
+- Docker (internal, non-exposed networking & enable reverse-proxy with NGINX)
 - NGINX (auth_basic, $remote_user)
 - Implementation of Streamlit Sessionstate (important to avoid cross-talk between sessions, don't want three users logged in on different computers but they're all being served as if they were the same user)
 
