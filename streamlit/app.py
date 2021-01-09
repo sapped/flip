@@ -1,16 +1,19 @@
+# stdlib imports
+
+# library imports
 import streamlit as st
-st.set_page_config(
-    initial_sidebar_state="collapsed",
-    page_title='flip.RIP')
-
 import pandas as pd
+import awesome_streamlit as ast # https://github.com/MarcSkovMadsen/awesome-streamlit
 
-# ast credit to https://github.com/MarcSkovMadsen/awesome-streamlit
-
-import awesome_streamlit as ast
+# local imports
 import src.pages.goals
 import src.pages.entries
 import src.pages.misc
+from users.users import get_user
+
+st.set_page_config(
+    initial_sidebar_state="collapsed",
+    page_title='flip.RIP')
 
 # TBU - change app name from 'app'?
 
@@ -21,8 +24,10 @@ PAGES = {
 }
 
 def main():
+    user = get_user()
     st.sidebar.title("Navigation")
     selection = st.sidebar.radio("Go to", list(PAGES.keys()))
+    st.sidebar.markdown(f'Logged in as **{user}**.')
     
     page = PAGES[selection]
 

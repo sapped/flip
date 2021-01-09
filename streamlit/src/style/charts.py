@@ -7,6 +7,8 @@ def table_cols(df_in):
     df = df_in.reset_index()
     st.table(df)
     return 0
+
+    # TBU - row-wise containers necessary to implement this
     rows, cols = df.shape[0], df.shape[1]
     col_headers = st.beta_columns(cols)
     col_placeholders = st.beta_columns(cols)
