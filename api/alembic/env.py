@@ -36,13 +36,14 @@ fileConfig(config.config_file_name)
 # target_metadata = mymodel.Base.metadata
 
 # ---------------- added code here -------------------------#
-import models
+from models import Base as ParentBase
+from user.model import Base as UserBase
 #------------------------------------------------------------#
 
 
 # ---------------- added code here -------------------------#
 # was target_metadata = None
-target_metadata = models.Base.metadata
+target_metadata = [ParentBase.metadata, UserBase.metadata]
 #------------------------------------------------------------#
 
 # other values from the config, defined by the needs of env.py,

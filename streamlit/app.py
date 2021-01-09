@@ -25,6 +25,7 @@ PAGES = {
 
 def main():
     user = User()
+    st.write(user.db_user)
     st.sidebar.title("Navigation")
     selection = st.sidebar.radio("Go to", list(PAGES.keys()))
     st.sidebar.markdown(f'Logged in as **{user.current_username}**.')
