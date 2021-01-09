@@ -32,6 +32,7 @@ This one was a doozy to figure out! Thanks to all in links mentioned below for v
 - see code in ~/main_dir/streamlit/users/users.py, which relies on session_state
 - app.py grabs user and displays on sidebar
 - you can use from users.users import get_user on whichever page you need users. Or maybe just implement it as part of global context somehow.
+- in this build, look at sidebar (if collapsed, click the tiny triangle in the top left of the webpage). Should say at bottom "logged in as **{user}**".
 
 #### My Opinion on Security
 From what I've read in the links below, this is secure. All user communication is handled inside the docker network (internal, inaccessible by outside world). One thing this is missing for a real-life implementation is an SSL certificate. I'll let you handle that on your own - it's a straightforward nginx configuration that you can Google easily.

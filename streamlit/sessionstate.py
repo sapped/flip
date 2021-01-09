@@ -133,7 +133,17 @@ def _get_session():
     if session_info is None:
         raise RuntimeError("Couldn't get your Streamlit Session object.")
     
-    # MODIFIED ORIGINAL CODE SO WE CAN ACCESS HEADERS FOR USER
+    return session_info.session
+
+# my own code, a slight tweak to _get_session
+def _get_full_session():
+    session_id = get_report_ctx().session_id
+    session_info = Server.get_current()._get_session_info(session_id)
+
+    if session_info is None:
+        raise RuntimeError("Couldn't get your Streamlit Session object.")
+    
+    # MODIFIED ORIGINAL _get_session CODE SO WE CAN ACCESS HEADERS FOR USER
     # return session_info.session
     return session_info
 
