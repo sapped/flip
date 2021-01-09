@@ -34,7 +34,9 @@ This one was a doozy to figure out! Thanks to all in links mentioned below for v
 - you can use from users.users import get_user on whichever page you need users. Or maybe just implement it as part of global context somehow.
 
 #### My Opinion on Security
-From what I've read in the aforementioned links,this is secure because all communication is handled inside the docker network (internal, inaccessible by outside world). One thing this is missing for a real-life implementation is an SSL certificate. I'll let you handle that on your own - it's a straightforward nginx configuration that you can Google easily.
+From what I've read in the links below, this is secure. All user communication is handled inside the docker network (internal, inaccessible by outside world). One thing this is missing for a real-life implementation is an SSL certificate. I'll let you handle that on your own - it's a straightforward nginx configuration that you can Google easily.
+
+But PLEASE let me know if you disagree! Security is essential. I want to ensure this implementation is totally safe and up to modern standards of security.
 
 ### Links referenced when designing users
 - https://discuss.streamlit.io/t/access-request-header-in-streamlit/1882
