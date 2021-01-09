@@ -50,4 +50,4 @@ But PLEASE let me know if you disagree! Security is essential. I want to ensure 
 
 ## Other helpful things
 - dbdiagram.io lets me visualize my ERD (entity relationship diagrams). Aka, those DB tables with connector things. Right now, I think DBML is a cool language for designing databases).
-- play around with live dummy at (flip.rip)[http://www.flip.rip], creds are "public/public"
+- play around with live dummy at [flip.rip](http://www.flip.rip), creds are "public/public"
