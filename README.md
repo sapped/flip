@@ -32,7 +32,8 @@ Probably fancier ways to do this, but auth_basic proves the concept
 
 #### Access headers in streamlit
 This one was a doozy to figure out! Thanks to all in links referenced below for valuable guidance.
-- see code in ~/main_dir/streamlit/users/users.py, which relies on session_state
+- see code in ~/main_dir/streamlit/user/user.py, which relies on session_state
+- also see how the user is grabbed in app.py
 - app.py grabs user and displays on sidebar
 - you can use from users.users import get_user on whichever page you need users. Or maybe just implement it as part of global context somehow.
 - in this build, look at sidebar (if collapsed, click the tiny triangle in the top left of the webpage). Should say at bottom "logged in as **{user}**".

@@ -9,7 +9,7 @@ import awesome_streamlit as ast # https://github.com/MarcSkovMadsen/awesome-stre
 import src.pages.goals
 import src.pages.entries
 import src.pages.misc
-from users.users import get_user
+from user.user import User
 
 st.set_page_config(
     initial_sidebar_state="collapsed",
@@ -24,10 +24,10 @@ PAGES = {
 }
 
 def main():
-    user = get_user()
+    user = User()
     st.sidebar.title("Navigation")
     selection = st.sidebar.radio("Go to", list(PAGES.keys()))
-    st.sidebar.markdown(f'Logged in as **{user}**.')
+    st.sidebar.markdown(f'Logged in as **{user.current_username}**.')
     
     page = PAGES[selection]
 
