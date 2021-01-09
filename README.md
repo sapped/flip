@@ -23,7 +23,7 @@ Probably fancier ways to do this, but auth_basic proves the concept
 1. edit file ~/main_dir/nginx/conf/project.conf
 2. At every exposed endpoint, add the code I have, anything that starts with 'auth_basic' (as of writing, this is 'auth_basic' and 'auth_basic_user_file')
 3. follow the README.md in ~/main_dir/nginx/auth/README.md to create users. Requires some apache2 tools installed so you can run htpasswd
-4. This is it for configuration of nginx reverse proxy for auth. The magic now is: within our local docker container network, we can speak in HTTP without worrying about HTTPS stifling us (see forum)[https://discuss.streamlit.io/t/user-authentication/612/5?u=eddie]
+4. This is it for configuration of nginx reverse proxy for auth. The magic now is: within our local docker container network, we can speak in HTTP without worrying about HTTPS stifling us [see forum](https://discuss.streamlit.io/t/user-authentication/612/5?u=eddie)
 
 #### Forward User via HTTP
 1. edit file ~/main_dir/nginx/conf/project.conf
