@@ -11,10 +11,9 @@ router = APIRouter(
     tags = ['User']
 )
 
-@router.get('/username', response_model=schema.User)
-def get_or_create_user(user: schema.User):
-    db_user = db.session.query(model.User).filter(model.User.id==user.id).first()
-    
+@router.get('/{username}', response_model=schema.User)
+def get_or_create_user(username: str):
+    db_user = db.session.query(model.User).filter(model.User.username==username).one_or_none()
     # user doesn't exist, create (users managed by htpasswd)
     if db_user is None:
         db_user = model.User(

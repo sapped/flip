@@ -38,12 +38,13 @@ fileConfig(config.config_file_name)
 # ---------------- added code here -------------------------#
 from models import Base as ParentBase
 from user.model import Base as UserBase
+from tracker.model import Base as TrackerBase
 #------------------------------------------------------------#
 
 
 # ---------------- added code here -------------------------#
 # was target_metadata = None
-target_metadata = [ParentBase.metadata, UserBase.metadata]
+target_metadata = [ParentBase.metadata, UserBase.metadata, TrackerBase.metadata]
 #------------------------------------------------------------#
 
 # other values from the config, defined by the needs of env.py,

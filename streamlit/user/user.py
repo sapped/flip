@@ -11,11 +11,7 @@ class User():
 
 
     def get_db_user(self):
-        json = {
-            'username': self.current_username
-        }
-        
-        res = requests.get(f'{self.resource}/username', json=json)
+        res = requests.get(f'{self.resource}/{self.current_username}')
         return res.json()
 
 def _get_active_user():
