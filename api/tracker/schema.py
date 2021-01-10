@@ -14,8 +14,8 @@ class Entry_Type(BaseModel):
 class Entry(BaseModel):
     id: Optional[int]
     entry_type: str
-    description: str
-    amount: float
+    description: Optional[str]
+    amount: Optional[float]
     created_at: Optional[float]
     user_id: int
 
