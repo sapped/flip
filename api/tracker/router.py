@@ -17,6 +17,11 @@ def get_entry_types():
     db_entry_types = db.session.query(model.Entry_Type).all()
     return db_entry_types
 
+@router.get('/entry', response_model=List[schema.Entry])
+def get_entry():
+    db_entry = db.session.query(model.Entry).all()
+    return db_entry
+
 @router.post('/entry_type', response_model=schema.Entry_Type)
 def create_entry_type(entry_type: schema.Entry_Type):
     db_entry_type = model.Entry_Type(
@@ -30,3 +35,17 @@ def create_entry_type(entry_type: schema.Entry_Type):
     db.session.commit()
 
     return db_entry_type
+
+@router.post('/entry', response_model=schema.Entry)
+def create_entry(entry: schema.Entry):
+    db_entry = model.Entry(
+        description = entry.description,
+        amount = entry.amount,
+        created_at = time.time(),
+        entry_type = entry.entry_type,
+        user_id = entry.user_id,
+    )
+    db.session.add(db_entry)
+    db.session.commit()
+
+    return db_entry

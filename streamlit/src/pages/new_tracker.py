@@ -22,7 +22,7 @@ def write():
     submit_entry(tracker, user_id)
 
     st.markdown('## 2. Review Entries')
-
+    st.write(tracker.existing_entries)
     st.markdown('## 3. Create New Entry Type')
     create_type(tracker, user_id)
 
@@ -36,17 +36,13 @@ def submit_entry(tracker, user_id):
         submission['description'] = st.text_input(label='Description')
     if row['has_amount']:
         submission['amount'] = st.number_input(label='Amount')
-    
+    submission['entry_type'] = choose
+    submission['user_id'] = user_id
     submit = st.button(label='submit')
 
-    submit:
+    if submit:
         # need to get variables before dict, then give to dict
-        res = tracker.create_entry(
-            description=,
-            amount=,
-            entry_type=,
-            user_id=,
-        )
+        res = tracker.create_entry(submission)
         st.write(res)
         create = False
 
