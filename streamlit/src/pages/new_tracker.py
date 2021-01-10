@@ -18,6 +18,7 @@ def write():
     user_id = user.db_user['id']
     tracker = Tracker()
 
+    # TBU - make hours_back based on goal type (calories 24, workout more)
     st.markdown('## 1. Choose Goal & Submit Entry')
     submit_entry(tracker, user_id)
 
