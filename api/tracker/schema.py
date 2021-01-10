@@ -6,7 +6,7 @@ class Entry_Type(BaseModel):
     has_description: bool
     has_amount: bool
     created_at: Optional[float]
-    user_id: Optional[int]
+    user_id: int
 
     class Config:
         orm_mode=True
@@ -17,7 +17,7 @@ class Entry(BaseModel):
     description: str
     amount: float
     created_at: Optional[float]
-    user_id: Optional[int]
+    user_id: int
 
     class Config:
         orm_mode=True

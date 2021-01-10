@@ -14,6 +14,7 @@ import models
 import schema
 
 from user import router as user_router
+from tracker import router as tracker_router
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(BASE_DIR,'.env'))
@@ -28,6 +29,7 @@ app.add_middleware(
     db_url=os.environ['DATABASE_URL'])
 
 app.include_router(user_router.router)
+app.include_router(tracker_router.router)
 
 
 # ---------- MANAGE GOALS ---------- #

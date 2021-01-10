@@ -6,6 +6,7 @@ import pandas as pd
 import awesome_streamlit as ast # https://github.com/MarcSkovMadsen/awesome-streamlit
 
 # local imports
+import src.pages.new_tracker
 import src.pages.goals
 import src.pages.entries
 import src.pages.misc
@@ -18,6 +19,7 @@ st.set_page_config(
 # TBU - change app name from 'app'?
 
 PAGES = {
+    'Goal Tracker v2': src.pages.new_tracker,
     'Track Performance': src.pages.entries,
     'Manage Goals': src.pages.goals,
     'Miscellaneous Gags': src.pages.misc,
@@ -25,7 +27,6 @@ PAGES = {
 
 def main():
     user = User()
-    st.write(user.db_user)
     st.sidebar.title("Navigation")
     selection = st.sidebar.radio("Go to", list(PAGES.keys()))
     st.sidebar.markdown(f'Logged in as **{user.current_username}**.')

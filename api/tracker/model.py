@@ -23,4 +23,4 @@ class Entry(Base):
     created_at = Column(Float, nullable=False)
     entry_type = Column(String, ForeignKey('entry_type.entry_type'))
     user_id = Column(Integer, ForeignKey(User.id))
-    user = relationship('User',backref='entries')
+    user = relationship(User,backref='entries')
