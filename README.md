@@ -54,3 +54,4 @@ But PLEASE let me know if you disagree! Security is essential. I want to ensure 
 
 # TBU
 - currently no auth_basic on /stream/ endpoint
+- do this: https://medium.com/@pentacent/nginx-and-lets-encrypt-with-docker-in-less-than-5-minutes-b4b8a60d3a71
