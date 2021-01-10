@@ -23,7 +23,11 @@ def write():
     submit_entry(tracker, user_id)
 
     st.markdown('## 2. Review Entries')
-    st.write(tracker.existing_entries)
+    sum = tracker.existing_entries.sum()
+    sum['entry_type'] = 'Total'
+    sum['description'] = '24hr Total'
+    sum['created_at'] = ''
+    st.table(tracker.existing_entries.append(sum, ignore_index=True).drop(columns=['user_id','created_at','entry_type']).set_index('description'))
     st.markdown('## 3. Create New Entry Type')
     create_type(tracker, user_id)
 
