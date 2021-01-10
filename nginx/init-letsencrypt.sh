@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=flip.rip
+domains='flip.rip'
 rsa_key_size=4096
 data_path="./nginx/data/certbot"
 email="" # Adding a valid address is strongly recommended
