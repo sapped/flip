@@ -14,9 +14,7 @@ from user.user import User
 
 st.set_page_config(
     initial_sidebar_state="collapsed",
-    page_title='flip.RIP')
-
-# TBU - change app name from 'app'?
+    page_title='Flip that rip')
 
 PAGES = {
     'Goal Tracker v2': src.pages.new_tracker,

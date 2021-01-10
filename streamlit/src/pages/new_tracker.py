@@ -20,14 +20,17 @@ def write():
 
     # TBU - make hours_back based on goal type (calories 24, workout 7*24)
     st.markdown('## 1. Choose Goal & Submit Entry')
-    submit_entry(tracker, user_id)
+    choose = submit_entry(tracker, user_id)
 
     st.markdown('## 2. Review Entries')
-    sum = tracker.existing_entries.sum()
+    df = tracker.existing_entries
+    df = df[df['entry_type']==choose]
+    sum = df.sum()
     sum['entry_type'] = 'Total'
     sum['description'] = '24hr Total'
-    sum['created_at'] = ''
-    st.write(tracker.existing_entries.append(sum, ignore_index=True).drop(columns=['user_id','created_at','entry_type']).set_index('description'))
+    df = df.append(sum, ignore_index=True)
+    df.drop(columns=['user_id','created_at'],inplace=True)
+    st.write(df)
     st.markdown('## 3. Create New Entry Type')
     create_type(tracker, user_id)
 
@@ -50,6 +53,8 @@ def submit_entry(tracker, user_id):
         res = tracker.create_entry(submission)
         st.write(res)
         create = False
+
+    return choose
 
 
 
