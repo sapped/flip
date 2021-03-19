@@ -60,6 +60,12 @@ services:
       - postgres
     logging:
       driver: none
-
+  
+  svelte:
+    build: ./svelte
+    command: npm run dev
+    volumes:
+      - ./svelte/:/svelte/
+    
 volumes:
   postgres_data:

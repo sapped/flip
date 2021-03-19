@@ -1,4 +1,5 @@
 import time
+from typing import List
 
 from fastapi import APIRouter, HTTPException
 from fastapi_sqlalchemy import db
@@ -10,6 +11,11 @@ router = APIRouter(
     prefix = '/user',
     tags = ['User']
 )
+
+@router.get('/', response_model=List[schema.User])
+def get_users():
+    db_users = db.session.query(model.User).all()
+    return db_users
 
 @router.get('/{username}', response_model=schema.User)
 def get_or_create_user(username: str):
