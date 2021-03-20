@@ -1,25 +1,32 @@
 version: '3'
 
 services:
-  streamlit:
-    volumes:
-      - ./streamlit/:/streamlit/
-    build:
-      context: ./streamlit
-      dockerfile: Dockerfile
-    container_name: streamlit
-    restart: always
-    # do not publicly expose port 8501
-    # ports:
-    #   - "8501:8501"
-    depends_on:
-      - api
+  # streamlit:
+  #   volumes:
+  #     - ./streamlit/:/streamlit/
+  #   build:
+  #     context: ./streamlit
+  #     dockerfile: Dockerfile
+  #   container_name: streamlit
+  #   restart: always
+  #   # do not publicly expose port 8501
+  #   # ports:
+  #   #   - "8501:8501"
+  #   depends_on:
+  #     - api
+  #   networks:
+  #     - app-network
   
   certbot:
     image: certbot/certbot
+    container_name: certbot
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+    depends_on:
+      - reverse
+    command: certonly --webroot --webroot-path=/var/www/html --email edwardsapp@gmail.com --agree-tos --no-eff-email -d flip.rip  -d www.flip.rip
   
   reverse:
     container_name: reverse
@@ -30,12 +37,18 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - streamlit
+      - pgadmin4
+      - svelte
+      # - streamlit
       - postgres
       - api
     volumes:
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - web-root:/var/www/html
+      - dhparam:/etc/ssl/certs
+    networks:
+      - app-network
     
   postgres:
     image: postgres:12
@@ -45,6 +58,8 @@ services:
     #   - "5432:5432"
     env_file:
       - ./postgres/.env
+    networks:
+      - app-network
 
   api:
     build:
@@ -57,6 +72,8 @@ services:
     #   - "8000:8000"
     depends_on:
       - postgres
+    networks:
+      - app-network
     
   pgadmin4:
     container_name: pgadmin4
@@ -69,12 +86,34 @@ services:
       - postgres
     logging:
       driver: none
+    networks:
+      - app-network
   
   svelte:
     build: ./svelte
     command: npm run dev
     volumes:
       - ./svelte/:/svelte/
+    networks:
+      - app-network
     
 volumes:
   postgres_data:
+  certbot-etc:
+  certbot-var:
+  web-root:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ed/flip/svelte/public
+      o: bind
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ed/flip/dhparam/
+      o: bind
+
+networks:
+  app-network:
+    driver: bridge
