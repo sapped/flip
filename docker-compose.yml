@@ -15,6 +15,12 @@ services:
     depends_on:
       - api
   
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+  
   reverse:
     container_name: reverse
     hostname: reverse
@@ -27,6 +33,9 @@ services:
       - streamlit
       - postgres
       - api
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
     
   postgres:
     image: postgres:12
